@@ -5,21 +5,31 @@ import Stats from 'three/addons/libs/stats.module.js';
 import sphere from './mesh/sphere';
 import cone from "./mesh/cone"; 
 import floor from "./mesh/floor";
+import line from "./line/line"
+import tuoyuan from "./line/EllipseCurve"
+import SplineCurve from "./line/SplineCurve"
+import QuadraticBezierCurve from "./line/QuadraticBezierCurve"
+import mountain from "./demo/mountain"
 import { createSprite } from './sprite'; 
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 
 let renderer,camera,scene,controls,ambientLight;
+
 
 function init(){
   // 建立场景
 scene = new THREE.Scene();
 
 
-scene.add(cube)
-scene.add(sphere);
-scene.add(cone);
+// scene.add(cube)
+// scene.add(sphere);
+// scene.add(cone);
 // scene.add(floor);
-
+//scene.add(line );
+//scene.add(tuoyuan);
+//scene.add(SplineCurve);
+//scene.add(QuadraticBezierCurve);
+scene.add(mountain);
 
 // // 使用精灵创建函数创建精灵
 // const sprite = createSprite('/assets/snowflake2.png'); 
@@ -55,8 +65,15 @@ document.body.appendChild(renderer.domElement);
 
  // 渲染循环
  function animate() {
-  renderer.render(scene, camera);
   requestAnimationFrame(animate);
+
+    // 每一帧调用 mesh.userData.update()
+    if (mountain.userData.update) {
+      mountain.userData.update();
+    }
+  
+  renderer.render(scene, camera);
+
 }
 
 animate();  // 开始渲染
@@ -123,91 +140,91 @@ function render() {
   renderer.render(scene, camera);
 }
 // 执行方法
-const settings = {
-  clear() {
-    // 重置所有物体的位置，颜色等
-    cube.position.set(0, 0, 0);
-    sphere.position.set(0, 0, 0);
-    cone.position.set(0, 0, 0);
-    cube.material.color.setHex(0xffffff);
-    sphere.material.color.setHex(0xffffff);
-    cone.material.color.setHex(0xffffff);
-    cube.material.opacity = 1;
-    sphere.material.opacity = 1;
-    cone.material.opacity = 1;
-    render();
-  },
-  setDefault() {
-    // 设置 cube 默认位置为 (0, 0, 0)
-    cube.position.set(0, 0, 0);
-    cube.material.color.setHex(0xFFC0CB);
-    render();
-  },
-  resetLight() {
-    ambientLight.intensity = 1;  // 恢复环境光的强度
-    render();
-  },
-  x: 0,
-    // 添加颜色控制
-    cubeColor: `#${cube.material.color.getHexString()}`,  // 使用立方体的当前颜色
-    // 立方体的位置控制
-  cubePosition: {
-    x: cube.position.x,
-    y: cube.position.y,
-    z: cube.position.z,
-  },
-    // 立方体透明度控制
-    cubeOpacity: cube.material.opacity,  // 初始透明度为立方体的当前透明度
-    // 环境光控制
-  ambientLightIntensity: ambientLight.intensity,  // 环境光强度
-  ambientLightColor: `#${ambientLight.color.getHexString()}`,  // 环境光颜色
-};
+// const settings = {
+//   clear() {
+//     // 重置所有物体的位置，颜色等
+//     cube.position.set(0, 0, 0);
+//     sphere.position.set(0, 0, 0);
+//     cone.position.set(0, 0, 0);
+//     cube.material.color.setHex(0xffffff);
+//     sphere.material.color.setHex(0xffffff);
+//     cone.material.color.setHex(0xffffff);
+//     cube.material.opacity = 1;
+//     sphere.material.opacity = 1;
+//     cone.material.opacity = 1;
+//     render();
+//   },
+//   setDefault() {
+//     // 设置 cube 默认位置为 (0, 0, 0)
+//     cube.position.set(0, 0, 0);
+//     cube.material.color.setHex(0xFFC0CB);
+//     render();
+//   },
+//   resetLight() {
+//     ambientLight.intensity = 1;  // 恢复环境光的强度
+//     render();
+//   },
+//   x: 0,
+//     // 添加颜色控制
+//     cubeColor: `#${cube.material.color.getHexString()}`,  // 使用立方体的当前颜色
+//     // 立方体的位置控制
+//   cubePosition: {
+//     x: cube.position.x,
+//     y: cube.position.y,
+//     z: cube.position.z,
+//   },
+//     // 立方体透明度控制
+//     cubeOpacity: cube.material.opacity,  // 初始透明度为立方体的当前透明度
+//     // 环境光控制
+//   ambientLightIntensity: ambientLight.intensity,  // 环境光强度
+//   ambientLightColor: `#${ambientLight.color.getHexString()}`,  // 环境光颜色
+// };
 
-gui.add(settings, 'clear').name('重置所有物体'); //0
-gui.add(settings, 'setDefault').name('设置默认位置'); // 重置到默认值
-gui.add(settings, 'resetLight').name('恢复环境光强度'); // 重置环境光强度
-gui.add(settings, 'x', -100, 100).name('X轴位置'); // 重置环境光强度
+// gui.add(settings, 'clear').name('重置所有物体'); //0
+// gui.add(settings, 'setDefault').name('设置默认位置'); // 重置到默认值
+// gui.add(settings, 'resetLight').name('恢复环境光强度'); // 重置环境光强度
+// gui.add(settings, 'x', -100, 100).name('X轴位置'); // 重置环境光强度
 
-// 颜色选择器
-gui.addColor(settings, 'cubeColor').name('立方体颜色').onChange((value) => {
-  cube.material.color.set(value); // 修改立方体颜色
-  render();
-});
+// // 颜色选择器
+// gui.addColor(settings, 'cubeColor').name('立方体颜色').onChange((value) => {
+//   cube.material.color.set(value); // 修改立方体颜色
+//   render();
+// });
 
-// 立方体位置控制
-const cubePositionFolder = gui.addFolder("立方体位置");
-cubePositionFolder.add(settings.cubePosition, 'x', -100, 100).onChange((value) => {
-  cube.position.x = value;
-  render();
-});
-cubePositionFolder.add(settings.cubePosition, 'y', -100, 100).onChange((value) => {
-  cube.position.y = value;
-  render();
-});
-cubePositionFolder.add(settings.cubePosition, 'z', -100, 100).onChange((value) => {
-  cube.position.z = value;
-  render();
-});
-cubePositionFolder.open(); // 展开位置控制文件夹
-// 立方体透明度控制
-gui.add(settings, 'cubeOpacity', 0, 1).step(0.01).name('立方体透明度').onChange((value) => {
-  cube.material.opacity = value;
-  cube.material.transparent = value < 1;  // 如果透明度小于1，则启用透明
-  render(); // 调用渲染函数
-});
-// 创建环境光控制文件夹
-const ambientLightFolder = gui.addFolder('环境光');
+// // 立方体位置控制
+// const cubePositionFolder = gui.addFolder("立方体位置");
+// cubePositionFolder.add(settings.cubePosition, 'x', -100, 100).onChange((value) => {
+//   cube.position.x = value;
+//   render();
+// });
+// cubePositionFolder.add(settings.cubePosition, 'y', -100, 100).onChange((value) => {
+//   cube.position.y = value;
+//   render();
+// });
+// cubePositionFolder.add(settings.cubePosition, 'z', -100, 100).onChange((value) => {
+//   cube.position.z = value;
+//   render();
+// });
+// cubePositionFolder.open(); // 展开位置控制文件夹
+// // 立方体透明度控制
+// gui.add(settings, 'cubeOpacity', 0, 1).step(0.01).name('立方体透明度').onChange((value) => {
+//   cube.material.opacity = value;
+//   cube.material.transparent = value < 1;  // 如果透明度小于1，则启用透明
+//   render(); // 调用渲染函数
+// });
+// // 创建环境光控制文件夹
+// const ambientLightFolder = gui.addFolder('环境光');
 
-// 环境光强度控制
-ambientLightFolder.add(settings, 'ambientLightIntensity', 0, 2).step(0.01).name('强度').onChange((value) => {
-  ambientLight.intensity = value;  // 更新环境光强度
-  render();
-});
+// // 环境光强度控制
+// ambientLightFolder.add(settings, 'ambientLightIntensity', 0, 2).step(0.01).name('强度').onChange((value) => {
+//   ambientLight.intensity = value;  // 更新环境光强度
+//   render();
+// });
 
-// 环境光颜色控制
-ambientLightFolder.addColor(settings, 'ambientLightColor').name('颜色').onChange((value) => {
-  ambientLight.color.set(value);  // 更新环境光颜色
-  render();
-});
+// // 环境光颜色控制
+// ambientLightFolder.addColor(settings, 'ambientLightColor').name('颜色').onChange((value) => {
+//   ambientLight.color.set(value);  // 更新环境光颜色
+//   render();
+// });
 
-ambientLightFolder.open(); // 展开环境光控制文件夹
+// ambientLightFolder.open(); // 展开环境光控制文件夹
