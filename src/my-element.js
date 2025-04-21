@@ -10,6 +10,10 @@ import tuoyuan from "./line/EllipseCurve"
 import SplineCurve from "./line/SplineCurve"
 import QuadraticBezierCurve from "./line/QuadraticBezierCurve"
 import mountain from "./demo/mountain"
+import { mesh, tubePoints } from "./demo/tunnel"
+import buffer from "./mesh/buffer";
+import lathe from "./mesh/lathe";
+import shape from "./mesh/shape";
 import { createSprite } from './sprite'; 
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 
@@ -29,7 +33,11 @@ scene = new THREE.Scene();
 //scene.add(tuoyuan);
 //scene.add(SplineCurve);
 //scene.add(QuadraticBezierCurve);
-scene.add(mountain);
+//scene.add(mountain);
+//scene.add(buffer);
+//scene.add(lathe);
+//scene.add(shape);
+scene.add(tunnel);
 
 // // 使用精灵创建函数创建精灵
 // const sprite = createSprite('/assets/snowflake2.png'); 
@@ -72,9 +80,15 @@ document.body.appendChild(renderer.domElement);
       mountain.userData.update();
     }
   
+    
+
+
+
   renderer.render(scene, camera);
 
 }
+
+
 
 animate();  // 开始渲染
 
