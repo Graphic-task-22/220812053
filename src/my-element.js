@@ -16,6 +16,8 @@ import lathe from "./mesh/lathe";
 import shape from "./mesh/shape";
 import { createSprite } from './sprite'; 
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+import bar from "./demo/bar"
+
 
 let renderer,camera,scene,controls,ambientLight;
 
@@ -37,12 +39,10 @@ scene = new THREE.Scene();
 //scene.add(buffer);
 //scene.add(lathe);
 //scene.add(shape);
-scene.add(tunnel);
+//scene.add(mesh);
+scene.add(bar);
 
-// // 使用精灵创建函数创建精灵
-// const sprite = createSprite('/assets/snowflake2.png'); 
-// scene.add(sprite);
-// console.log(sprite.material); // 查看精灵的材质信息
+
 
   // 环境光
 ambientLight = new THREE.AmbientLight(0xffffff, 1);
@@ -79,10 +79,6 @@ document.body.appendChild(renderer.domElement);
     if (mountain.userData.update) {
       mountain.userData.update();
     }
-  
-    
-
-
 
   renderer.render(scene, camera);
 
@@ -121,6 +117,16 @@ scene.add(axesHelper);
 controls.addEventListener('change', function () {
   renderer.render(scene, camera); //执行渲染操作
 }); //监听鼠标、键盘事件
+//界面可以旋转、缩放、拖拽
+controls.enablePan = true;
+controls.enableZoom = true;
+controls.enableRotate = true;
+
+controls.mouseButtons = {
+  LEFT: THREE.MOUSE.ROTATE,
+  MIDDLE: THREE.MOUSE.DOLLY,
+  RIGHT: THREE.MOUSE.PAN
+};
 
 // 添加一个辅助网格地面 网格地面辅助观察GridHelper
 const gridHelper = new THREE.GridHelper(300, 25, 0x004444, 0x004444);
