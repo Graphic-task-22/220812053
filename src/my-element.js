@@ -27,12 +27,10 @@ function init(){
 scene = new THREE.Scene();
 
 
-// scene.add(cube)
-// scene.add(sphere);
-// scene.add(cone);
-// scene.add(floor);
+ scene.add(cube)
+ scene.add(sphere);
+ scene.add(cone);
 //scene.add(line );
-//scene.add(tuoyuan);
 //scene.add(SplineCurve);
 //scene.add(QuadraticBezierCurve);
 //scene.add(mountain);
@@ -40,7 +38,7 @@ scene = new THREE.Scene();
 //scene.add(lathe);
 //scene.add(shape);
 //scene.add(mesh);
-scene.add(bar);
+//scene.add(bar);
 
 
 
